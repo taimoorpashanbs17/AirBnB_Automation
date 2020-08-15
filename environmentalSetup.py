@@ -9,6 +9,7 @@ class environmental_Setup(unittest.TestCase):
         print("Test Environment Started at " + str(datetime.datetime.now()))
         self.driver = webdriver.Chrome(executable_path=getDriver.get_driver())
         self.driver.maximize_window()
+        self.driver.implicitly_wait(30)
 
     def tearDown(self):
         if self.driver is not None:

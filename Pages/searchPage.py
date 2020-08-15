@@ -25,6 +25,31 @@ class search_page_elements:
     def first_record(self):
         return self.driver.find_element_by_xpath('//div[contains(@class,"_ttw0d")]')
 
+    def map_pin_point(self):
+        return self.driver.find_element_by_xpath("//div[contains(@style,"
+                                                 "'background-color: rgb(34, 34, 34)')]")
+
+    def cross_button_map(self):
+        return self.driver.find_element_by_xpath('//div[contains(@class,"_1xt4bgs4")]')
+
+    def room_type(self):
+        return self.driver.find_elements_by_xpath('//div[contains(@class,"_167qordg")]')[0]
+
+    def hotel_name(self):
+        return self.driver.find_elements_by_xpath('//div[contains(@class,"_1c2n35az")]')[0]
+
+    def hotel_price(self):
+        return self.driver.find_elements_by_xpath('//div[contains(@class,"_1fwiw8gv")]')[0]
+
+    def hotel_price_in_map(self):
+        return self.driver.find_element_by_xpath('//div[contains(@class,"_mvzr1f2")]')
+
+    def get_hotel_name_from_map(self):
+        return self.driver.find_element_by_xpath('//div[contains(@class,"_v96gnbz")]').text
+
+    def get_hotel_type_from_map(self):
+        return self.driver.find_element_by_xpath('//div[contains(@class,"_v96gnbz")]').text
+
 
 class customWaits(search_page_elements):
     def wait_till_element_displays(self, element):
@@ -77,12 +102,17 @@ class search_page_actions(search_page_elements):
         self.more_filters_button().click()
 
     def click_on_number_of_bedrooms(self, number_of_times):
-        customWaits(self.driver).wait_till_element_clickable('//*[@id="filterItem-stepper-min_bedrooms-0"]/button[2]/span')
+        customWaits(self.driver).wait_till_element_displays('//*[@id="filterItem-stepper-min_bedrooms-0"]'
+                                                            '/button[2]/span')
+        customWaits(self.driver).wait_till_element_clickable('//*[@id="filterItem-stepper-min_bedrooms-0"]'
+                                                             '/button[2]/span')
         for i in range(number_of_times):
             self.add_bedroom_button().click()
 
     def click_on_show_records(self):
         self.show_results_button().click()
+        button = self.driver.find_element_by_xpath('//button[contains(@class, "_1wc4ltr")]')
+        print(button.text)
 
     def get_all_bedroom_results(self):
         customWaits(self.driver).wait_till_element_displays('//div[contains(@class,"_kqh46o")]')
@@ -100,5 +130,30 @@ class search_page_actions(search_page_elements):
 
     def click_on_first_record(self):
         customWaits(self.driver).wait_till_element_clickable('//div[contains(@class,"_ttw0d")]')
-        ActionChains(self.driver).move_to_element(self.first_record())\
+        ActionChains(self.driver).move_to_element(self.first_record()) \
             .click(self.first_record()).perform()
+
+    def move_to_first_record(self):
+        customWaits(self.driver).wait_till_element_displays('//div[contains(@class,"_kqh46o")]')
+        customWaits(self.driver).wait_till_element_clickable('//div[contains(@class,"_ttw0d")]')
+        ActionChains(self.driver).move_to_element(self.first_record()).perform()
+
+    def map_pin_appeared(self):
+        customWaits(self.driver).wait_till_element_displays("//div[contains(@style,"
+                                                            "'background-color: rgb(255, 255, 255)')]")
+        return self.map_pin_point().is_displayed()
+
+    def click_on_selected_location_pin(self):
+        self.map_pin_point().click()
+
+    def get_text_room_type(self):
+        return self.room_type().text
+
+    def get_text_hotel_name(self):
+        return self.hotel_name().text
+
+    def get_hotel_price(self):
+        return self.hotel_price().text
+
+    def get_hotel_price_from_map(self):
+        return self.hotel_price_in_map().text
