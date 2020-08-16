@@ -2,6 +2,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
+from otherMethods import splitText
 
 
 class search_page_elements:
@@ -47,8 +48,12 @@ class search_page_elements:
     def get_hotel_name_from_map(self):
         return self.driver.find_element_by_xpath('//div[contains(@class,"_v96gnbz")]').text
 
-    def get_hotel_type_from_map(self):
-        return self.driver.find_element_by_xpath('//div[contains(@class,"_v96gnbz")]').text
+    def get_room_type_from_map(self):
+        text = self.driver.find_element_by_css_selector('ol._194e2vt2').text
+        formatting_text = splitText.format_text(text, 0)
+        formatting_city = splitText.format_text(text, 1)
+        hotel_type = [formatting_text, formatting_city]
+        return hotel_type
 
 
 class customWaits(search_page_elements):
