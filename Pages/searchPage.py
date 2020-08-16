@@ -33,19 +33,19 @@ class search_page_elements:
     def cross_button_map(self):
         return self.driver.find_element_by_xpath('//div[contains(@class,"_1xt4bgs4")]')
 
-    def room_type(self):
-        return self.driver.find_elements_by_xpath('//div[contains(@class,"_167qordg")]')[0]
+    def get_room_type_from_list(self):
+        return self.driver.find_elements_by_xpath('//div[contains(@class,"_167qordg")]')[0].text
 
-    def hotel_name(self):
-        return self.driver.find_elements_by_xpath('//div[contains(@class,"_1c2n35az")]')[0]
+    def hotel_name_list(self):
+        return self.driver.find_elements_by_xpath('//div[contains(@class,"_1c2n35az")]')[0].text
 
-    def hotel_price(self):
-        return self.driver.find_elements_by_xpath('//div[contains(@class,"_1fwiw8gv")]')[0]
+    def hotel_price_from_list(self):
+        return self.driver.find_elements_by_xpath('//div[contains(@class,"_1fwiw8gv")]')[0].text
 
     def hotel_price_in_map(self):
-        return self.driver.find_element_by_xpath('//div[contains(@class,"_mvzr1f2")]')
+        return self.driver.find_element_by_xpath('//div[contains(@class,"_mvzr1f2")]').text
 
-    def get_hotel_name_from_map(self):
+    def hotel_name_from_map(self):
         return self.driver.find_element_by_xpath('//div[contains(@class,"_v96gnbz")]').text
 
     def get_room_type_from_map(self):
@@ -116,8 +116,6 @@ class search_page_actions(search_page_elements):
 
     def click_on_show_records(self):
         self.show_results_button().click()
-        button = self.driver.find_element_by_xpath('//button[contains(@class, "_1wc4ltr")]')
-        print(button.text)
 
     def get_all_bedroom_results(self):
         customWaits(self.driver).wait_till_element_displays('//div[contains(@class,"_kqh46o")]')
@@ -150,15 +148,3 @@ class search_page_actions(search_page_elements):
 
     def click_on_selected_location_pin(self):
         self.map_pin_point().click()
-
-    def get_text_room_type(self):
-        return self.room_type().text
-
-    def get_text_hotel_name(self):
-        return self.hotel_name().text
-
-    def get_hotel_price(self):
-        return self.hotel_price().text
-
-    def get_hotel_price_from_map(self):
-        return self.hotel_price_in_map().text

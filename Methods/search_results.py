@@ -1,4 +1,3 @@
-import time
 import unittest
 from Pages.homePage import home_page_actions as home_page
 from Pages.searchPage import search_page_actions as search_action
@@ -6,6 +5,7 @@ from environmentalSetup import environmental_Setup
 from otherMethods import getDates
 from Pages.selectHotelPage import selectHotel_page_actions
 from Pages.searchPage import search_page_elements as search_elements
+from otherMethods import name_verification
 
 
 class search_results(environmental_Setup):
@@ -51,7 +51,6 @@ class search_results(environmental_Setup):
         search_action(self.driver).click_on_first_record()
         selectHotel_page_actions(self.driver).amentities_to_scroll()
         selectHotel_page_actions(self.driver).click_on_show_amentities_button()
-        print(selectHotel_page_actions(self.driver).get_all_amentities_values())
         self.assertTrue("Pool" in selectHotel_page_actions(self.driver).get_all_amentities_values(),
                         "Pool is not displaying Under that Property.")
 
@@ -68,9 +67,19 @@ class search_results(environmental_Setup):
         self.assertTrue(search_action(self.driver).map_pin_appeared(),
                         "Map is not Displaying Pin point")
         search_action(self.driver).click_on_selected_location_pin()
-        print(search_elements(self.driver).get_room_type_from_map())
-        print(search_action(self.driver).get_text_room_type())
-        # time.sleep(5)
+        hotel_type_from_map = search_elements(self.driver).get_room_type_from_map()
+        hotel_type_from_list = search_elements(self.driver).get_room_type_from_list()
+        self.assertTrue(name_verification.hotel_name_verification
+                        (hotel_type_from_map, hotel_type_from_list),
+                        "Hotel Types are different showing on both Map and List")
+        hotel_name_from_map = search_elements(self.driver).hotel_name_from_map()
+        hotel_name_from_list = search_elements(self.driver).hotel_name_list()
+        self.assertEqual(hotel_name_from_list, hotel_name_from_map,
+                         "Names are different showing on both map and List")
+        hotel_price_in_list = search_elements(self.driver).hotel_price_from_list()
+        hotel_price_in_map = search_elements(self.driver).hotel_price_in_map()
+        self.assertEqual(hotel_price_in_list, hotel_price_in_map,
+                         "Prices displaying are same on both map and list")
 
 
 if __name__ == "__main__":
