@@ -6,13 +6,10 @@ from otherMethods import getDates
 from Pages.selectHotelPage import selectHotel_page_actions
 from Pages.searchPage import search_page_elements as search_elements
 from otherMethods import name_verification
-<<<<<<< HEAD
 from otherMethods.readConfig import read_Config
-=======
->>>>>>> 69c6bda8c1ddb147a8ce9170f4ef98e4af45598b
 
 
-class search_results(environmental_Setup):
+class test_scenarios(environmental_Setup):
 
     def test_a_verify_results_match_criteria(self):
         home_page(self.driver).get_page(read_Config().base_url())
@@ -65,26 +62,24 @@ class search_results(environmental_Setup):
         search_action(self.driver).click_on_first_record()
         selectHotel_page_actions(self.driver).amentities_to_scroll()
         selectHotel_page_actions(self.driver).click_on_show_amentities_button()
-<<<<<<< HEAD
         self.assertTrue(amentity_to_check in selectHotel_page_actions(self.driver).get_all_amentities_values(),
-=======
-        self.assertTrue("Pool" in selectHotel_page_actions(self.driver).get_all_amentities_values(),
->>>>>>> 69c6bda8c1ddb147a8ce9170f4ef98e4af45598b
                         "Pool is not displaying Under that Property.")
 
     def test_c_verify_property_displaying_on_map(self):
-        home_page(self.driver).get_page("https://www.airbnb.com/")
-        home_page(self.driver).enter_on_search_field("Rome, Italy")
+        home_page(self.driver).get_page(read_Config().base_url())
+        home_page(self.driver).enter_on_search_field(read_Config().get_city_name())
         home_page(self.driver).click_on_calender()
         home_page(self.driver).enter_date(getDates.get_current_date())
         home_page(self.driver).enter_date(getDates.get_end_date())
         home_page(self.driver).click_on_guest_button()
-        home_page(self.driver).add_number_of_guest(2)
-        home_page(self.driver).add_number_of_child(1)
+        number_of_guests = int(read_Config().number_of_guests())
+        number_of_children = int(read_Config().number_of_children())
+        home_page(self.driver).add_number_of_guest(number_of_guests)
+        home_page(self.driver).add_number_of_child(number_of_children)
         home_page(self.driver).click_at_search_button()
         search_action(self.driver).move_to_first_record()
         self.assertTrue(search_action(self.driver).map_pin_appeared(),
-                        "Location is not Displaying Pin point of Map.")
+                        "Location is not Displaying in Pin point of Map.")
         search_action(self.driver).click_on_selected_location_pin()
         hotel_type_from_map = search_elements(self.driver).get_room_type_from_map()
         hotel_type_from_list = search_elements(self.driver).get_room_type_from_list()

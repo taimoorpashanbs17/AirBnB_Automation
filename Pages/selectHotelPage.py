@@ -1,7 +1,9 @@
+import traceback
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import NoSuchElementException
 
 
 class selectHotel_page_elements:
@@ -14,11 +16,11 @@ class selectHotel_page_elements:
     def hotel_name(self):
         return self.driver.find_element_by_xpath('//div[contains(@class,"_xcsyj0")]')
 
-    def amenities_text(self):
-        return self.driver.find_element_by_xpath('//*[@id="site-content"]//div[5]/div[2]//div/section/h2')
-
     def show_amentities_button(self):
-        return self.driver.find_element_by_xpath('//*[@id="site-content"]//div[5]/div[2]/div[3]/a')
+        return self.driver.find_element_by_xpath('//div[contains(@class,"_1tv4hg3")]')
+
+    def amentities_text(self):
+        return self.driver.find_element_by_xpath('//div[contains(@class,"_svr7sj")]')
 
     def get_all_amentities(self):
         return self.driver.find_elements_by_xpath('//div[contains(@class,"_vzrbjl")]')
@@ -45,10 +47,14 @@ class selectHotel_page_actions(selectHotel_page_elements):
     def amentities_to_scroll(self):
         self.switch_to_current_tab()
         customWaits(self.driver).wait_till_element_displays('//div[contains(@class,"_xcsyj0")]')
-        self.scroll_to_element(self.amenities_text())
+        customWaits(self.driver).wait_till_element_clickable('//div[contains(@class,"_5kaapu")]')
+        self.scroll_to_element(self.amentities_text())
 
     def click_on_show_amentities_button(self):
-        self.show_amentities_button().click()
+        try:
+            self.show_amentities_button().click()
+        except NoSuchElementException:
+            traceback.print_exc()
 
     def get_all_amentities_values(self):
         data = []
@@ -57,6 +63,6 @@ class selectHotel_page_actions(selectHotel_page_elements):
         for i in amentities:
             data.append(i.text)
         for i in data:
-            for ali in i.split('\n'):
-                new_data.append(ali)
+            for res in i.split('\n'):
+                new_data.append(res)
         return new_data

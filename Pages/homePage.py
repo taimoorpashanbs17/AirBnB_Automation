@@ -19,8 +19,7 @@ class home_page_elements:
         return field
 
     def checkin_datepicker_calender(self):
-        calender = self.driver.find_element_by_xpath('//div[contains(@class, "_wtz1co")]')
-        return calender
+        return self.driver.find_element_by_xpath('//div[contains(@class, "_wtz1co")]')
 
     def get_value_date(self, date):
         value = self.driver.find_element_by_xpath('//div[contains(@data-testid, "datepicker-day-{}")]'.
@@ -74,6 +73,8 @@ class home_page_actions(home_page_elements):
         self.search_field().send_keys(value)
 
     def click_on_calender(self):
+        customWaits(self.driver).wait_till_element_clickable_xpath(
+                    '//div[contains(@class, "_wtz1co")]')
         self.checkin_datepicker_calender().click()
 
     def enter_date(self, date):
@@ -84,10 +85,13 @@ class home_page_actions(home_page_elements):
     def click_on_guest_button(self):
         self.guest_button().click()
 
-    def add_number_of_guest(self):
-        self.add_guest_button().click()
-        self.add_guest_button().click()
-        self.add_child_button().click()
+    def add_number_of_guest(self, number_of_guests):
+        for i in range(number_of_guests):
+            self.add_guest_button().click()
+
+    def add_number_of_child(self, number_of_children):
+        for i in range(number_of_children):
+            self.add_child_button().click()
 
     def click_at_search_button(self):
         self.search_button().click()

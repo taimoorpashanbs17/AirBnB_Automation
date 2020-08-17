@@ -1,13 +1,13 @@
 import unittest
 from selenium import webdriver
 import datetime
-from otherMethods.getDriver import getDriver
+from otherMethods.getPath import getPath
 
 
 class environmental_Setup(unittest.TestCase):
     def setUp(self):
         print("Test Environment Started at " + str(datetime.datetime.now()))
-        self.driver = webdriver.Chrome(executable_path=getDriver.get_driver())
+        self.driver = webdriver.Chrome(executable_path=getPath().get_driver())
         self.driver.maximize_window()
         self.driver.implicitly_wait(30)
 
