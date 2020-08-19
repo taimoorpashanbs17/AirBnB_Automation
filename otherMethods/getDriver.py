@@ -12,3 +12,8 @@ class getDriver:
             selected_driver = os.path.abspath(parent_directory +
                                               "//Resources//Drivers//ChromeDriver//chromedriver_windows.exe")
             return selected_driver
+        elif os_name == "Linux":
+            selected_driver = os.path.abspath(parent_directory +
+                                              "Resources/Drivers/chromedriver_linux")
+            return selected_driver
+
