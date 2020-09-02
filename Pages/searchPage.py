@@ -1,6 +1,6 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.action_chains import ActionChains
 from otherMethods import splitText
 
@@ -58,13 +58,13 @@ class search_page_elements:
 
 class customWaits(search_page_elements):
     def wait_till_element_displays(self, element):
-        return self.wait.until(EC.presence_of_element_located((By.XPATH, element)))
+        return self.wait.until(ec.presence_of_element_located((By.XPATH, element)))
 
     def wait_till_element_visible(self, element):
-        return self.wait.until(EC.invisibility_of_element((By.XPATH, element)))
+        return self.wait.until(ec.invisibility_of_element((By.XPATH, element)))
 
     def wait_till_element_clickable(self, element):
-        return self.wait.until(EC.element_to_be_clickable((By.XPATH, element)))
+        return self.wait.until(ec.element_to_be_clickable((By.XPATH, element)))
 
 
 class search_page_actions(search_page_elements):
@@ -100,8 +100,8 @@ class search_page_actions(search_page_elements):
 
     def get_guests_from_portal(self):
         value = self.entered_searched_values()[2]
-        newValue = value.replace("\n", "\t")
-        return newValue[7:]
+        new_value = value.replace("\n", "\t")
+        return new_value[7:]
 
     def click_on_more_filters(self):
         self.more_filters_button().click()
